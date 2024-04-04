@@ -63,10 +63,20 @@ function renderOption1Results(data) {
     document.getElementById("option-1-results").innerHTML = "";
     if (data.articles) {
         data.articles.forEach((item) => {
+            if(item.urlToImage === null) {
+                image = "./images/no_image.jpg";
+            }else{
+                image = item.urlToImage;
+            }
+            if(item.author === null) {
+                author = "No Author";
+            }else{
+                author = item.author;
+            }
             const card = createCardElement({
                 title: item.title,
-                author: item.author,
-                image: item.urlToImage,
+                author: author,
+                image: image,
                 url: item.url,
             }); 
             document.getElementById("option-1-results").innerHTML += card;
