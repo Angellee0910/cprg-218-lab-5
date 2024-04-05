@@ -31,10 +31,10 @@ async function fetchNewsSourceList() {
     try {
       // Get a list of News source
       const response = await fetch(
-        "https://newsapi.org/v2/top-headlines/sources?apiKey=f86e70a974474c42aa718f920e5d64d1"
+        "https://newsdata.io/api/1/sources?apikey=pub_4140449f4e39acfb4b6164da145f2d96cc518&country=ca&prioritydomain=medium"
       );
       const data = await response.json();
-      return data.sources;
+      return data.results;
       //Error handling
     } catch (error) {
       console.log(error);
@@ -46,7 +46,7 @@ async function fetchNewsSourceList() {
  */
 async function fetchNewsList(sourceid) {
     try {
-      const url = `https://newsapi.org/v2/top-headlines?sources=${sourceid}&apiKey=f86e70a974474c42aa718f920e5d64d1`;
+      const url = `https://newsdata.io/api/1/news?apikey=pub_4140449f4e39acfb4b6164da145f2d96cc518&country=ca&domain=${sourceid}`;
       const response = await fetch(url);
       const json = await response.json();
       return json;
@@ -61,23 +61,23 @@ async function fetchNewsList(sourceid) {
  */
 function renderOption1Results(data) {
     document.getElementById("option-1-results").innerHTML = "";
-    if (data.articles) {
-        data.articles.forEach((item) => {
-            if(item.urlToImage === null) {
+    if (data.results) {
+        data.results.forEach((item) => {
+            if(item.image_url === null) {
                 image = "./images/no_image.jpg";
             }else{
-                image = item.urlToImage;
+                image = item.image_url;
             }
-            if(item.author === null) {
+            if(item.creator === null) {
                 author = "No Author";
             }else{
-                author = item.author;
+                author = item.creator;
             }
             const card = createCardElement({
                 title: item.title,
                 author: author,
                 image: image,
-                url: item.url,
+                url: item.link,
             }); 
             document.getElementById("option-1-results").innerHTML += card;
         });
